@@ -1,0 +1,114 @@
+import numpy as np
+import pandas as pd
+import statistics
+import random
+import datetime
+import time
+import requests
+from bs4 import BeautifulSoup
+
+#need to find a way to search bdays of person to bdays of famous ppl in the website, look into requests-html
+
+date = datetime.datetime.now().strftime("%B")
+
+def intro():
+  name = input("What's your name?\n").capitalize()
+  time.sleep(1.5)
+  print("\nHi, %s. \n\nHope you're doing well.." % name)
+
+
+def addsub():
+  no_qs = random.randint(2,6)
+  print("You'll have", no_qs, "questions")
+  correct = 0
+  attempts = 0
+  while attempts<no_qs:
+    for i in range(no_qs):
+      first = random.randint(1,12)
+      second = random.randint(1,12)
+      third = random.randint(21,80)
+      x = random.randint(1,2)
+      if attempts == no_qs:
+        print("All done!")
+        break
+      elif x ==1:
+        print("Addition Question:", first,"+", second, "+", third)
+        eas_add = first + second + third
+        eas_add_a = input("What is the answer?\n")
+        if int(eas_add_a) == eas_add:
+          print("Correct!")
+          correct +=1
+          attempts += 1
+          print(attempts)
+          continue
+        else:
+          print("Wrong!")
+          attempts += 1
+          print(attempts)
+          continue
+      elif x==2:
+        print("Subtraction Question:", third,"-", second, "-", first)
+        eas_sub = third - second - first
+        eas_sub_a = input("What is the answer?\n")
+        if eas_sub == int(eas_sub_a):
+          print("Correct!")
+          correct+= 1 
+          attempts+= 1
+          print(attempts)
+          continue
+        else:
+          print("Wrong!")
+          attempts += 1
+          print(attempts)
+          continue
+  score = correct/no_qs 
+  print("You got", correct, "out of", no_qs)
+  print("In other words,",format(score,'.0%'))
+  if score < 0.5:
+    print("you failed..")
+  elif score == 0.5:
+    print("You barely passed. Congrats!")
+  elif 0.5 < score < 0.7:
+    print("Decent job but lower percentile!")
+  else:
+    print("Great job.")
+  
+def age():
+  print("Let's see how well you do with age math\n")
+  time.sleep(2)
+  year_born = random.randint(1901,2015)
+  print("Someone was born in", year_born, "\nHow old would they be today?")
+  guess = input()
+  if int(guess) == int(2021-year_born):
+    print("Correct!")
+  else:
+    print("Wrong! They would be", str(2021-year_born), "years old")
+
+def fact():
+  month = input("What month were you born? (input full month name)\n")
+  day = input("What day were you born?\n")
+  url = "https://www.famousbirthdays.com/" + month + day+".html"
+  z = requests.get(url)
+  soup = BeautifulSoup(z.text,"html.parser")
+  xx = soup.find('div',class_="info")
+  print(xx.get_text())
+
+
+def choice():
+  intro()
+  while True:
+    level = input("\nWhat game would you like to play?\n1 = Addition and Subtraction Game\n2 = Age\n3 = Fun Facts\n")
+    if level =="1":
+      print("Okay, let's start addsub!\n")
+      addsub()
+    elif level =="2":
+      print("Let's test our your age skills.\n")
+      age()
+    elif level =="3":
+      print("Fun facts it is\n")
+      fact()
+    else:
+      print("\nInvalid! Pls ensure you select a valid option\n")
+      continue
+    
+choice()

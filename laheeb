@@ -1,0 +1,33 @@
+
+df = pd.read_csv('f500.csv')
+dff = pd.DataFrame(df)
+print(dff.loc[1])
+
+a = np.random.randn(3,3)
+b = np.random.randn(3,1)
+
+c = a*b
+#print(a)
+
+a=np.random.randn(12288,150) # a.shape = (12288, 150)a.shape=(12288,150)
+
+b = np.random.randn(150, 45)b=np.random.randn(150,45) # b.shape = (150, 45)$$
+
+c = np.dot(a,b)c=np.dot(a,b)
+
+print(c)
+
+
+food_data = {
+  "Apples":[56,1.2,1.8],
+  "Beef":[0,104,135],
+  "Eggs":[4.4,52,99],
+  "Potatoes":[68,8,0.9]
+  
+}
+
+food = pd.DataFrame(food_data,index=["Carb","Protein","Fat"])
+
+print(food)
+
+print(food.sum(axis=0)/food_data.

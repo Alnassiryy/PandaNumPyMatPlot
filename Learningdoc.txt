@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+import random
+
+#Upload Dataset and get a general idea
+df = pd.read_csv("titanic.csv")
+#print(df.info())
+
+#Remove duplicates
+df.drop_duplicates(inplace=True)
+
+#Understand how many NA's in the dataset
+#print(df.count())
+
+#Replace NA age with average age
+avg_age = round((df['Age']).median(),2)
+df['Age'].fillna(avg_age,inplace=True)
+
+s_data = df.query('Survived==1')
+d_data = df.query('Survived==0')
+
+
+df = df.assign(weight = (np.random.normal(150,10,891))).round(0)
+
+#print(df[['Age','Fare']].describe())
+
+upper_class = df.query('Pclass == 2 or Pclass == 3')
+
+# Using iloc to locate by row and column
+#df.iloc[0:3,3] ="Anonymous"
+
+#group by - What is the mean ticket fare price for each of the sex and cabin class combinations?
+#x = df.groupby(['Sex','Pclass'])['Fare'].mean()
+
+
+
+NoPassCabin = df.groupby(['Pclass'])['PassengerId'].count()
+
+print(df['Pclass'].value_counts())
